@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: conversao-meta
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: desafio-devops
+
+  template:
+    metadata:
+      labels:
+        app: desafio-devops
+
+    spec:
+      containers:
+      - name: conversao-container
+        image: gbsbjj/cvs-devops:latest
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+
+kind: Service
+metadata:
+  name: conversao-meta
+  labels:
+    app: conversao-label
+spec:
+  selector:
+    app: conversao-spec
+  ports:
+  - port: 80
+    targetPort: 5000
+    NodePort: 30000
+  type: NodePort
+
